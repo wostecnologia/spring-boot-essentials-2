@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,9 @@ public class AnimeService {
 
     public Page<Anime> listAll(Pageable pageable) {
         return respository.findAll(pageable);
+    }
+    public List<Anime> listAllNonPageable() {
+        return respository.findAll();
     }
 
     public Anime findByIdOrThrowBadRequestException(Long id) {
