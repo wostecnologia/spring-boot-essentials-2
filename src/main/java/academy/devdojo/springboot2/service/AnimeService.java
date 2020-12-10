@@ -3,7 +3,7 @@ package academy.devdojo.springboot2.service;
 import academy.devdojo.springboot2.domain.Anime;
 import academy.devdojo.springboot2.exception.BadRequestException;
 import academy.devdojo.springboot2.mapper.AnimeMapper;
-import academy.devdojo.springboot2.repository.AnimeRespository;
+import academy.devdojo.springboot2.repository.AnimeRepository;
 import academy.devdojo.springboot2.requests.AnimeRequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeService {
 
-    private final AnimeRespository respository;
+    private final AnimeRepository respository;
 
     public Page<Anime> listAll(Pageable pageable) {
         return respository.findAll(pageable);

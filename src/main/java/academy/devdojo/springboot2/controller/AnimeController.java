@@ -3,7 +3,6 @@ package academy.devdojo.springboot2.controller;
 import academy.devdojo.springboot2.domain.Anime;
 import academy.devdojo.springboot2.requests.AnimeRequestBody;
 import academy.devdojo.springboot2.service.AnimeService;
-import academy.devdojo.springboot2.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,23 +27,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeController {
 
-    private final DateUtil dateUtil;
     private final AnimeService animeService;
 
     @GetMapping
     public ResponseEntity<Page<Anime>> list(Pageable pageable) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listAll(pageable));
     }
 
     @GetMapping(path = "/all")
     public ResponseEntity<List<Anime>> listAllNonPageable() {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listAllNonPageable());
     }
 
     @GetMapping(path = "/search")
-    public ResponseEntity<Anime> findByName(AnimeRequestBody animeRequestBody) {
+    public ResponseEntity<Anime> search(AnimeRequestBody animeRequestBody) {
         return ResponseEntity.ok(animeService.findByNameOrThrowBadRequestException(animeRequestBody));
     }
 
@@ -56,7 +51,6 @@ public class AnimeController {
 
     @PostMapping
     public ResponseEntity<Anime> save(@RequestBody @Valid AnimeRequestBody animeRequestBody) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return new ResponseEntity<>(animeService.save(animeRequestBody), HttpStatus.CREATED);
     }
 
@@ -68,8 +62,6 @@ public class AnimeController {
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<Void> replace(@PathVariable Long id, @RequestBody @Valid AnimeRequestBody animeRequestBody) {
-        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-
         animeService.replace(id, animeRequestBody);
         return ResponseEntity.noContent().build();
     }
